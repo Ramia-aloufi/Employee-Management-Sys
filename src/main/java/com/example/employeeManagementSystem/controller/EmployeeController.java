@@ -28,7 +28,7 @@ import com.example.employeeManagementSystem.shared.GlobalResponse;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/employee") // Base URL for the API
+@RequestMapping("/employees") // Base URL for the API
 public class EmployeeController {
 
     @Autowired
@@ -73,7 +73,7 @@ employeeService.deleteOne(employeeId);
         return new ResponseEntity<>(new GlobalResponse<>(em), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{employeeId}/leave-request")
+    @PostMapping("/{employeeId}/leave-requests")
     public ResponseEntity<GlobalResponse<LeaveRequest>> createLeaveRequest(@PathVariable UUID employeeId, @RequestBody @Valid LeaveRequestCreate leaveRequest) {
         LeaveRequest leave = leaveRequestService.createOne(leaveRequest, employeeId);
         return new ResponseEntity<>(new GlobalResponse<>(leave), HttpStatus.CREATED);

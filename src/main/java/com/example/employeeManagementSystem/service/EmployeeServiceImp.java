@@ -3,7 +3,9 @@ package com.example.employeeManagementSystem.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.example.employeeManagementSystem.abstracts.EmployeeService;
@@ -24,6 +26,7 @@ public class EmployeeServiceImp implements EmployeeService {
     @Autowired
     private DepartmentRepo departmentRepo;
 
+    @PreAuthorize("@securityUtils.isOwner(#employeeId)")
     public Employee findOne(UUID employeeId) {
         Employee employee = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee: " + employeeId + " not found"));
@@ -40,7 +43,7 @@ public class EmployeeServiceImp implements EmployeeService {
                 employeeRepo.delete(employee);
     }
 
-   
+    @PreAuthorize("@securityUtils.isOwner(#employeeId)")
     public Employee updateOne(UUID employeeId, EmployeeUpdate employee) {
         Employee existingEmployee = employeeRepo.findById(employeeId)
                 .orElseThrow(() -> CustomResponseException.ResourceNotFound("Employee not found"));
