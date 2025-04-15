@@ -19,6 +19,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserAccount> account = userAccountRepo.findOneByUsername(username);
+        System.out.println("UserDetailsServiceImp: " + account);
 
         if (account.isEmpty()) {
             throw  CustomResponseException.BadCredentials();

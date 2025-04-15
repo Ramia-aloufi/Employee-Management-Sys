@@ -30,10 +30,8 @@ public class UserAccount implements UserDetails {
     @Id
     @UuidGenerator
     private UUID id;
-    @Size(min = 3, max = 20, message = "username must be between 3 and 20 characters")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
-    @Size(min = 8, max = 20, message = "password must be between 8 and 20 characters")
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "role", nullable = false,length = 20)

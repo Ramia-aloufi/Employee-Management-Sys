@@ -24,10 +24,10 @@ public class AuthController {
 
 
 
-    @PostMapping("/SignUp")
-    public ResponseEntity<GlobalResponse<SignupRequest>> signUp(@RequestBody @Valid SignupRequest signupRequest) {
+    @PostMapping("/signup")
+    public ResponseEntity<GlobalResponse<String>> signUp(@RequestBody @Valid SignupRequest signupRequest) {
         authService.signUp(signupRequest);
-        return new ResponseEntity<>(new GlobalResponse<>(signupRequest), HttpStatus.OK);
+        return new ResponseEntity<>(new GlobalResponse<>("Created"), HttpStatus.OK);
     }
     @PostMapping("/login")
     public ResponseEntity<GlobalResponse<String>> login(@RequestBody @Valid LoginRequest loginRequest) {
