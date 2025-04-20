@@ -41,6 +41,10 @@ private String phoneNumber;
 private LocalDate hireDate;
 @Column(name = "position",length = 100)
 private String position;
+@Column(name = "account_creation_token")
+private String accountCreationToken;
+@Column(name = "is_verified", columnDefinition = "boolean default false",nullable = false)
+private boolean isVerified;
 @ManyToOne(fetch = FetchType.LAZY,optional = false)
 @JoinColumn(name = "department_id" ,nullable = false )
 @JsonProperty("department_id")

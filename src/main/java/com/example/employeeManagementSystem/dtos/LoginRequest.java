@@ -1,6 +1,5 @@
 package com.example.employeeManagementSystem.dtos;
 
-import java.util.UUID;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.employeeManagementSystem.dtos.LoginRequest;
@@ -25,8 +26,8 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<GlobalResponse<String>> signUp(@RequestBody @Valid SignupRequest signupRequest) {
-        authService.signUp(signupRequest);
+    public ResponseEntity<GlobalResponse<String>> signUp(@RequestBody @Valid SignupRequest signupRequest,@RequestParam String token) {
+        authService.signUp(signupRequest,token);
         return new ResponseEntity<>(new GlobalResponse<>("Created"), HttpStatus.OK);
     }
     @PostMapping("/login")

@@ -16,6 +16,7 @@ import com.example.employeeManagementSystem.entity.Employee;
 import com.example.employeeManagementSystem.entity.UserAccount;
 import com.example.employeeManagementSystem.repositories.EmployeeRepo;
 import com.example.employeeManagementSystem.repositories.UserAccountRepo;
+import com.example.employeeManagementSystem.shared.CustomResponseException;
 
 @Service
 public class AuthService {
@@ -35,19 +36,25 @@ public class AuthService {
     @Autowired
     JwtHelper jwtHelper;
 
-    public void signUp(SignupRequest signupRequest) {
+    public void signUp(SignupRequest signupRequest ,String token) {
         // Check if the username already exists
-        System.out.println("PASS: " + passwordEncoder.encode(signupRequest.password()));
-
-        Employee emp = employeeRepo.findById(signupRequest.employeeId())
+        Employee emp = employeeRepo.findByAccountCreationToken(token)
                 .orElseThrow(
-                        () -> new RuntimeException("Employee with id :" + signupRequest.employeeId() + " not found"));
+                        () -> CustomResponseException.ResourceNotFound("Invalid token"));
+        if(emp.isVerified()){
+            throw CustomResponseException.BadRequest("Account already verified");
+        }
+        // Create a new UserAccount
         UserAccount account = new UserAccount();
         account.setUsername(signupRequest.username());
         account.setPassword(passwordEncoder.encode(signupRequest.password()));
         account.setEmployee(emp);
-        System.out.println("AuthService: " + account);
+        // Save the UserAccount to the database
         userAccountRepo.save(account);
+        // Update the Employee entity
+        emp.setVerified(true);
+        emp.setAccountCreationToken(null);
+        employeeRepo.save(emp);
     }
 
     public String login(LoginRequest loginRequest) {

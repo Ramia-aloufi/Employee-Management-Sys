@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import com.example.employeeManagementSystem.entity.UserAccount;
 import com.example.employeeManagementSystem.repositories.UserAccountRepo;
 import com.example.employeeManagementSystem.shared.CustomResponseException;
+
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
-        @Autowired
+    @Autowired
     UserAccountRepo userAccountRepo;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -22,18 +23,16 @@ public class UserDetailsServiceImp implements UserDetailsService {
         System.out.println("UserDetailsServiceImp: " + account);
 
         if (account.isEmpty()) {
-            throw  CustomResponseException.BadCredentials();
+            throw CustomResponseException.BadCredentials();
         }
         UserAccount user = account.get();
-
-
 
         return User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .roles(user.getRole())
                 .build();
-        
+
     }
 
 }

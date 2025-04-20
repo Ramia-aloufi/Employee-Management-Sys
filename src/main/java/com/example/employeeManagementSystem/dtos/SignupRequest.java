@@ -1,7 +1,5 @@
 package com.example.employeeManagementSystem.dtos;
 
-import java.util.UUID;
-
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -11,9 +9,7 @@ public record SignupRequest(
      String username,
     @NotNull(message = "password is required")
     @Size(min = 8, max = 50, message = "password must be between 8 and 50 characters")
-     String password,
-    @NotNull(message = "employee_id is required")
-     UUID employeeId
+     String password
 ) {
 
 }
